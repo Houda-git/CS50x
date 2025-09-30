@@ -1,0 +1,234 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<style>
+/* --- Header & Stats --- */
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.header h1 {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-number { font-size: 1.8rem; font-weight: 700; color: #667eea; }
+.stat-label { color: #64748b; font-size: 0.9rem; }
+
+/* --- Categories Section --- */
+.categories-section {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.add-category-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+.add-category-btn:hover { transform: translateY(-1px); }
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+.category-card {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+.category-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border-color: var(--category-color, #667eea);
+}
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--category-color, #667eea);
+    border-radius: 12px 12px 0 0;
+}
+.category-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.category-icon { font-size: 1.5rem; margin-right: 0.75rem; }
+.category-name { font-size: 1.2rem; font-weight: 600; flex: 1; }
+.delete-btn {
+    background: none; border: none; color: #ef4444;
+    cursor: pointer; padding: 0.25rem; border-radius: 4px;
+}
+.delete-btn:hover { background: #fee2e2; }
+
+/* --- Add Category Form --- */
+#category-form {
+    background: #f1f5f9;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+#category-form input, #category-form select, #category-form button {
+    padding: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+#category-form button {
+    background: #667eea;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+#category-form button:hover {
+    background: #5a67d8;
+}
+
+@media (max-width: 768px) {
+    .categories-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+<div class="header">
+    <h1>📋 My Todo Lists</h1>
+    <p>Stay organized and productive</p>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+      <div class="stat-number">{{ total_categories }}</div>
+      <div class="stat-label">Categories</div>
+  </div>
+  <div class="stat-card">
+      <div class="stat-number">{{ total_tasks }}</div>
+      <div class="stat-label">Tasks</div>
+  </div>
+  <div class="stat-card">
+      <div class="stat-number">{{ total_completed }}</div>
+      <div class="stat-label">Completed</div>
+  </div>
+  <div class="stat-card">
+      <div class="stat-number">{{ overall_completion }}%</div>
+      <div class="stat-label">Overall Progress</div>
+  </div>
+</div>
+
+<div class="categories-section">
+    <div class="section-header">
+        <h2>Categories</h2>
+        <button class="add-category-btn" id="openCategoryFormBtn">+ Add Category</button>
+    </div>
+
+    <!-- Hidden Add Category Form -->
+    <form id="category-form" style="display: none;">
+        <input type="text" name="category_name" placeholder="Category name" required>
+    <select name="category_icon">
+        <option value="">— No Icon —</option>
+        <option value="📋">📋</option>
+        <option value="💼">💼</option>
+        <option value="🏠">🏠</option>
+        <option value="💪">💪</option>
+        <option value="📚">📚</option>
+        <option value="🛒">🛒</option>
+        <option value="🎨">🎨</option>
+        <option value="🎵">🎵</option>
+        <option value="🍔">🍔</option>
+        <option value="✈️">✈️</option>
+    </select>
+        <button type="submit">Create</button>
+    </form>
+
+    <div class="categories-grid" id="categories-grid">
+        {% for category in categories %}
+        <div class="category-card" style="--category-color: {{ category.color or '#667eea' }};"
+             onclick="location.href='/category/{{ category.id }}'">
+            <div class="category-header">
+                <span class="category-icon">{{ category.icon or ' '}}</span>
+                <h3 class="category-name">{{ category.name }}</h3>
+                <button class="delete-btn" onclick="event.stopPropagation(); deleteCategory({{ category.id }})">🗑️</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('category-form');
+    const openBtn = document.getElementById('openCategoryFormBtn');
+
+    // Toggle form visibility
+    openBtn.addEventListener('click', () => {
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Submit form
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        fetch('/add_category', {
+            method: 'POST',
+            body: new URLSearchParams(data)
+        })
+        .then(r => r.json())
+        .then(res => {
+            if (res.error) alert(res.error);
+            else location.reload(); // reload page to show new category
+        });
+    });
+});
+
+// Delete category function
+function deleteCategory(id) {
+    if (!confirm('Delete this category and all its tasks?')) return;
+
+    fetch('/delete_category', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({category_id: id})
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) location.reload();
+        else alert(data.error || 'Could not delete category');
+    });
+}
+</script>
+{% endblock %}

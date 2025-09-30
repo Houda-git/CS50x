@@ -1,0 +1,14 @@
+sort1 uses: bubble sort
+
+How do you know?: Because it is consistently the slowest algorithm across all types of inputs.
+Bubble sort has a time complexity of O(n²), which makes it inefficient on large or unsorted data.
+
+sort2 uses: merge sort
+
+How do you know?: It is the fastest among the three algorithms for all types of input sizes.
+Merge sort has a time complexity of O(n log n), which makes it very efficient for large datasets.
+
+sort3 uses: selection sort
+
+How do you know?: Its performance is slower than merge sort but faster than bubble sort.
+This is consistent with selection sort’s time complexity of O(n²), but with fewer swaps compared to bubble sort.

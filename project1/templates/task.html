@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h2>Tasks for Category: {{ category }}</h2>
+    <ul id="task_list">
+        {% for task in tasks %}
+            <li data-task-id="{{ task['id'] }}" class="{{ 'completed' if task['completed'] }}">
+                <input type="checkbox" class="task-checkbox" {% if task['completed'] %}checked{% endif %}>
+                <span>{{ task['description'] }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+    <form id="task_form"> <input name="task_name" id="task_name" placeholder="New task" required>
+        <button type="submit">Add Task</button>
+    </form>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const taskList = document.getElementById('task_list');
+    const taskForm = document.getElementById('task_form');
+    const taskNameInput = document.getElementById('task_name');
+
+    // 1) ONE delegated listener for checkbox changes
+    taskList.addEventListener('change', (e) => {
+        if (!e.target.matches('.task-checkbox')) return;
+
+        const checkbox = e.target;
+        const li = checkbox.closest('li');
+        const taskId = li.dataset.taskId;
+        const isCompleted = checkbox.checked;
+
+        // disable while request is in-flight
+        checkbox.disabled = true;
+
+        fetch('/update_task_status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ task_id: taskId, completed: isCompleted })
+        })
+        .then(response => {
+        if (!response.ok) throw new Error('Network error');
+        return response.json();
+        })
+        .then(data => {
+        if (data.success) {
+            // toggle the class based on the server-confirmed state
+            li.classList.toggle('completed', !!isCompleted);
+            if (isCompleted) alert('Good job! 👍');
+            checkAllTasksCompleted();
+        } else {
+            // revert UI if server responded with success:false
+            checkbox.checked = !isCompleted;
+            alert(data.error || 'Could not update task on server.');
+        }
+        })
+        .catch(err => {
+        console.error(err);
+        // revert UI on error
+        checkbox.checked = !isCompleted;
+        alert('Error updating task status. Please try again.');
+        })
+        .finally(() => {
+        checkbox.disabled = false;
+        });
+    });
+
+    // 2) Submit handler for adding a task
+    taskForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const taskName = taskNameInput.value.trim();
+        if (!taskName) return;
+
+        const submitBtn = taskForm.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+
+        // send as form-encoded (matches app.py request.form)
+        fetch('/add_task', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'task_name=' + encodeURIComponent(taskName) + '&category_id={{ category_id }}'
+        })
+        .then(response => {
+        if (!response.ok) throw new Error('Network error');
+        return response.json();
+        })
+        .then(data => {
+        // Expecting { id: <int>, description: <str>, completed: <bool> }
+        const li = document.createElement('li');
+        li.dataset.taskId = data.id;                    // IMPORTANT: task id so updates work
+        if (data.completed) li.classList.add('completed');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'task-checkbox';           // match the selector used for delegation
+        checkbox.checked = !!data.completed;
+
+        const span = document.createElement('span');
+        span.textContent = data.description;
+
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        taskList.appendChild(li);
+
+        taskNameInput.value = '';
+        checkAllTasksCompleted();
+        })
+        .catch(err => {
+        console.error(err);
+        alert('Error adding task!');
+        })
+        .finally(() => {
+        submitBtn.disabled = false;
+        });
+    });
+
+    // 3) small helper
+    function checkAllTasksCompleted() {
+        const allCheckboxes = document.querySelectorAll('.task-checkbox');
+        if (allCheckboxes.length === 0) return;
+        const completedCheckboxes = document.querySelectorAll('.task-checkbox:checked');
+        if (allCheckboxes.length === completedCheckboxes.length) {
+        setTimeout(() => alert('You have finished your daily tasks! 🎉'), 100);
+        }
+    }
+    });
+    </script>
+    <a href="/">Back to Categories</a>
+{% endblock %}

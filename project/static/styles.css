@@ -1,0 +1,789 @@
+/* Enhanced TodoList Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Main theme colors */
+    --primary: #667eea;
+    --primary-dark: #5a6fd8;
+    --secondary: #764ba2;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #3b82f6;
+
+    /* Background colors */
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f1f5f9;
+
+    /* Text colors */
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+
+    /* Border and shadow */
+    --border: #e2e8f0;
+    --border-focus: #cbd5e1;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+    --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+    /* Transitions */
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark mode variables */
+body.dark-mode {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --border-focus: #475569;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+    --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: var(--transition);
+    min-height: 100vh;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+
+p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+/* Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Navigation (if using layout.html) */
+.navbar {
+    background: var(--bg-secondary) !important;
+    box-shadow: var(--shadow) !important;
+    border-bottom: 1px solid var(--border);
+    transition: var(--transition);
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+    color: var(--primary) !important;
+}
+
+.nav-link {
+    color: var(--text-primary) !important;
+    font-weight: 500;
+    transition: var(--transition);
+    border-radius: 8px;
+    padding: 0.5rem 1rem !important;
+}
+
+.nav-link:hover {
+    background: var(--bg-tertiary) !important;
+    color: var(--primary) !important;
+}
+
+/* Buttons */
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--border);
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background: var(--success);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+form .btn,
+form button,
+form input[type="submit"] {
+    margin: 0 auto;
+    display: flex !important;
+    justify-content: center;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* Cards */
+.card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition-slow);
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.card-body {
+    flex: 1;
+}
+/* Fix for category cards not changing background in dark mode */
+
+/* Category cards - force proper background colors */
+.category-card,
+.category,
+.card {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* Specific fix for dark mode category backgrounds */
+.dark-mode .category-card,
+.dark-mode .category,
+.dark-mode .card {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* If your categories have specific class names like these */
+.category-item,
+.todo-category,
+.category-container {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Force all white backgrounds to use proper dark mode colors */
+.dark-mode [style*="background: white"],
+.dark-mode [style*="background: #fff"],
+.dark-mode [style*="background-color: white"],
+.dark-mode [style*="background-color: #fff"],
+.dark-mode [style*="background-color: #ffffff"] {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* If you're using Bootstrap or similar framework */
+.dark-mode .bg-white {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* General fix for any div that might be a category container */
+.dark-mode .category,
+.dark-mode .category > *,
+.dark-mode [class*="category"] {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Stats cards at the top should also change */
+.dark-mode .stats-card,
+.dark-mode .stat-item,
+.dark-mode .metric-card {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Badges */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.badge-primary { background: rgba(102, 126, 234, 0.1); color: var(--primary); }
+.badge-success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+.badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+.badge-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+/* Alerts */
+.alert {
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.alert-info {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.2);
+    color: var(--info);
+}
+
+.alert-success {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.2);
+    color: var(--success);
+}
+
+.alert-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.2);
+    color: var(--warning);
+}
+
+.alert-danger {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+}
+
+/* Dark mode toggle */
+.dark-mode-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    z-index: 100;
+}
+
+.dark-mode-toggle:hover {
+    transform: rotate(15deg) scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Modal styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--border);
+    transform: scale(0.9);
+    transition: var(--transition);
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .container {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem 0.5rem;
+    }
+
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+
+    .btn {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.8rem;
+    }
+
+    .card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .dark-mode-toggle {
+        top: 0.5rem;
+        right: 0.5rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0.5rem;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .form-input, .form-select {
+        padding: 0.625rem 0.875rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes bounce {
+    0%, 20%, 53%, 80%, 100% { transform: translate3d(0, 0, 0); }
+    40%, 43% { transform: translate3d(0, -30px, 0); }
+    70% { transform: translate3d(0, -15px, 0); }
+    90% { transform: translate3d(0, -4px, 0); }
+}
+
+/* Utility classes */
+.fade-in { animation: fadeIn 0.5s ease-out; }
+.slide-in-right { animation: slideInRight 0.5s ease-out; }
+.bounce-in { animation: bounce 1s ease-out; }
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 1rem; }
+.p-4 { padding: 1.5rem; }
+
+.rounded { border-radius: 8px; }
+.rounded-lg { border-radius: 12px; }
+.rounded-xl { border-radius: 16px; }
+.rounded-full { border-radius: 50%; }
+
+.shadow { box-shadow: var(--shadow); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* Focus styles */
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus,
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* Print styles */
+@media print {
+    .btn, .modal, .dark-mode-toggle {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+    }
+}
+/* Main categories section container (the big white area) */
+.categories-section,
+.categories-container,
+.main-content,
+.content-wrapper,
+.categories-wrapper {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Category cards - force proper background colors */
+.category-card,
+.category,
+.card {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* Specific fix for dark mode - ALL containers */
+.dark-mode .categories-section,
+.dark-mode .categories-container,
+.dark-mode .main-content,
+.dark-mode .content-wrapper,
+.dark-mode .categories-wrapper,
+.dark-mode .page-content,
+.dark-mode .app-content {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Dark mode category cards */
+.dark-mode .category-card,
+.dark-mode .category,
+.dark-mode .card {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* If your categories have specific class names like these */
+.category-item,
+.todo-category,
+.category-container {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Fix for BOTH categories AND tasks sections */
+
+/* Main sections (big containers) */
+.dark-mode .categories-section,
+.dark-mode .tasks-section,
+.dark-mode .todo-section,
+.dark-mode div,
+.dark-mode section,
+.dark-mode main,
+.dark-mode article {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Task items and category cards (individual items) */
+.dark-mode .task,
+.dark-mode .task-item,
+.dark-mode .todo-item,
+.dark-mode .task-card,
+.dark-mode .card,
+.dark-mode .category-card,
+.dark-mode .category {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* Task text elements specifically */
+.dark-mode .task-title,
+.dark-mode .task-text,
+.dark-mode .task-name,
+.dark-mode .task-description {
+    color: var(--text-primary) !important;
+}
+
+/* Filter buttons area */
+.dark-mode .filters,
+.dark-mode .filter-buttons,
+.dark-mode .tabs {
+    background-color: var(--bg-primary) !important;
+}
+
+/* SPECIFIC FIX for the white form container */
+.dark-mode .form,
+.dark-mode .form-container,
+.dark-mode .modal,
+.dark-mode .modal-content,
+.dark-mode .create-form,
+.dark-mode .add-category-form,
+.dark-mode .input-group,
+.dark-mode .form-group,
+.dark-mode .form-wrapper,
+.dark-mode .category-form,
+.dark-mode .add-form {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* SPECIFIC FIX for the category-form by ID */
+.dark-mode #category-form,
+.dark-mode form {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+    padding: 1rem !important;
+    border-radius: 12px !important;
+}
+
+/* Force any div that might be the form container */
+.dark-mode div[style*="background"],
+.dark-mode div[class*="form"],
+.dark-mode div[class*="create"],
+.dark-mode div[class*="add"] {
+    background-color: var(--bg-secondary) !important;
+}
+
+/* Input fields and selects */
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea,
+.dark-mode .form-control,
+.dark-mode .form-input,
+.dark-mode .form-select {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 2px solid var(--border) !important;
+}
+
+/* Placeholder text */
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* Labels */
+.dark-mode label,
+.dark-mode .form-label {
+    color: var(--text-primary) !important;
+}
+
+/* Force any hardcoded white backgrounds */
+.dark-mode [style*="background: white"],
+.dark-mode [style*="background: #fff"],
+.dark-mode [style*="background-color: white"],
+.dark-mode [style*="background-color: #fff"],
+.dark-mode [style*="background-color: #ffffff"] {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+
+/* General fix for any div that might be a category container */
+.dark-mode .category,
+.dark-mode .category > *,
+.dark-mode [class*="category"] {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Stats cards at the top should also change */
+.dark-mode .stats-card,
+.dark-mode .stat-item,
+.dark-mode .metric-card {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+}

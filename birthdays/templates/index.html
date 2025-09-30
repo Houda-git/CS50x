@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="/static/styles.css" rel="stylesheet">
+        <title>Birthdays</title>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Birthdays</h1>
+        </div>
+        <div class="container">
+            <div class="section">
+
+                <h2>Add a Birthday</h2>
+                <!-- TODO: Create a form for users to submit a name, a month, and a day -->
+                 <form id= "birthdayForm">
+                    <input autocomplete="off" autofocus name="name" placeholder="Name" type="text" required>
+                    <input autocomplete="off" name="month" placeholder="Month" type="number" min="1" max="12" required>
+                    <input autocomplete="off" name="day" placeholder="Day" type="number" min="1" max = "31" required>
+                    <button type="submit">Add Birthday</button>
+                 </form>
+            </div>
+
+            <div class="section">
+
+                <h2>All Birthdays</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Birthday</th>
+                        </tr>
+                    </thead>
+                    <tbody id="birthdayTable">
+                        <!-- TODO: Loop through the database entries to display them in this table -->
+                         {% for person in data %}
+                            <tr>
+                                <td>{{ person.name }}</td>
+                                <td>{{ person.month }} / {{ person.day }}</td>
+                            </tr>
+                         {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <script>
+            // Select the button
+        let button = document.querySelector('button');
+
+        // When button is clicked
+        button.addEventListener('click', async function(event) {
+            event.preventDefault(); // Stop the form from reloading the page
+
+            // Get form values
+            let name = document.querySelector('input[name="name"]').value;
+            let month = document.querySelector('input[name="month"]').value;
+            let day = document.querySelector('input[name="day"]').value;
+
+            // Send data to server
+            let response = await fetch('/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `name=${name}&month=${month}&day=${day}`
+            });
+
+            if (response.ok) {
+                let birthday = await response.json();
+
+                // Add the new row to the table
+                document.querySelector('#birthdayTable').innerHTML +=
+                    `<tr><td>${birthday.name}</td><td>${birthday.month} / ${birthday.day}</td></tr>`;
+
+                // Clear the form
+                document.querySelector('form').reset();
+            } else {
+                alert('Error adding birthday');
+            }
+        });
+    </script>
+    </body>
+</html>

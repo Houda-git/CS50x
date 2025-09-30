@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h2>Choose a Category for Your To-Do List</h2>
+    <ul id="category-list">
+        {% for category in categories %}
+            <li>
+                <form method="GET" action="/category/{{ category['id'] }}">
+                    <button type="submit">{{ category['name'] }}</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <button onclick="document.getElementById('add-category-form').style.display='block';">
+        Add/Personalize Category
+    </button>
+    <div id="add-category-form" style="display:none;">
+        <form id="category-form">
+            <input name="category_name" id="category_name" placeholder="Category Name" required>
+            <button type="submit">Add Category</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById("category-form").addEventListener('submit', function(e) {
+            e.preventDefault();
+            const categoryName = document.getElementById("category_name").value;
+            fetch("/add_category", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'category_name=' + encodeURIComponent(categoryName)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error){
+                    alert(data.error);
+                    return;
+                }
+                const ul = document.getElementById("category-list");
+                // Create the same structure for new category
+                const li = document.createElement('li');
+                const form = document.createElement('form');
+                form.method = "GET";
+                form.action = "/category/" + data.id;
+                const button = document.createElement('button');
+                button.type = "submit";
+                button.textContent = data.name;
+                form.appendChild(button);
+                li.appendChild(form);
+                ul.appendChild(li);
+                // Clear input and hide form
+                document.getElementById("category_name").value = '';
+                document.getElementById('add-category-form').style.display='none';
+            })
+            .catch(error => {
+                alert("Error adding category!");
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,113 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat fixed;
+}
+
+header {
+    background-color: #007bff;
+    color: #ffb6c1;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .links a {
+    color: #007bff;
+    background: white;
+    text-decoration: none;
+    margin-left: 10px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 60px auto;
+    flex-wrap: wrap;
+}
+
+.card-box {
+    width: 370px;
+    padding: 30px;
+    background: rgba(173, 216, 230, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    color: #002244;
+}
+
+.more-info {
+    background: rgba(255, 182, 193, 0.9);
+    display: none;
+}
+
+.card-box h1 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.card-box p {
+    line-height: 1.6;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.footer-main {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    margin-top:50px;
+    border-top: 2px solid #ccc;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap; /* for mobile responsiveness */
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.footer-box {
+  flex: 1;
+  min-width: 250px;
+  margin: 10px;
+  text-align: center;
+}
+
+
+.footer-box a:hover {
+    text-decoration: underline;
+}
+
+html {
+    scroll-behavior: smooth
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script>
+            // TODO: Add code to check answers to questions
+            // Wait until the DOM is fully loaded
+            document.addEventListener("DOMContentLoaded", function()
+        {
+            const feedback = document.getElementById("feedback1");
+            const button = document.querySelectorAll("button.choice")
+            for (let i =0; i< button.length; i++)
+        {
+            button[i].addEventListener('click',function() {
+                if (button[i].id == 'j')
+                {
+                    button[i].style.backgroundColor = "green"
+                    feedback.textContent = 'Correct'
+                    feedback.style.backgroundColor = 'green'
+                }
+                else
+                {
+                    button[i].style.backgroundColor = "red"
+                    feedback.textContent = 'Incorrect'
+                    feedback.style.backgroundColor = 'red'
+                }
+        });
+        }
+            const check_answer = document.getElementById("check_answer")
+            const input = document.getElementById("response")
+            const feedback2 = document.getElementById("feedback2");
+            check_answer.addEventListener('click', function(){
+                const userans = input.value.toLowerCase();
+                if (userans == "russia")
+        {
+            input.style.backgroundColor = "green"
+            feedback2.textContent = 'Correct'
+            feedback2.style.backgroundColor = 'green'
+        }
+            else
+        {
+            input.style.backgroundColor = "red"
+            feedback2.textContent = 'Incorrect'
+            feedback2.style.backgroundColor = 'red'
+        }
+        });
+
+        });
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <h3>What is the oldest kingdom in the world?</h3>
+                <button class = 'choice' id = 'm'>Kingdom of Morocco</button>
+                <button class = 'choice' id = 'j'>Kingdom of Japan</button>
+                <button class = 'choice' id = 'e'>Kingdom of England</button>
+                <p id="feedback1" style="font-weight: bold;"></p>
+            </div>
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <!-- TODO: Add free response question here -->
+                <h3>What is the largest country in the world?</h3>
+                 <input placeholder = 'Answer' id = 'response' type = "text">
+                 <button id = "check_answer">Check answer</button>
+                 <p id="feedback2" style="font-weight: bold;"></p>
+            </div>
+        </div>
+    </body>
+</html>
