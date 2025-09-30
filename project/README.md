@@ -81,7 +81,8 @@ project/
 ├── helpers
 ├── todo.db
 └── README.md
-``
+```
+
 #### How to Run Locally
 
 ##### Clone the repository:
