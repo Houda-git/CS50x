@@ -1,7 +1,7 @@
 # My To-Do List Website
 #### Video Demo:  https://www.youtube.com/watch?v=SUQBv5YFMOU
 #### Description:
-#### To-Do List Web App
+#### To-Do List Web App
 
 For my final project in CS50’s Introduction to Computer Science, I wanted to create something that not only applied the programming concepts I learned throughout the course, but also solved a problem I personally face on a daily basis: staying organized and managing tasks. That’s why I chose to build a To-Do List Web Application.
 
@@ -64,7 +64,7 @@ To me, this project embodies what CS50 is all about: starting from zero, learnin
 - HTML, CSS, JavaScript, Jinja2 templates
 
 #### Project Structure
-
+```
 project/
 │
 ├── templates/
@@ -81,10 +81,10 @@ project/
 ├── helpers
 ├── todo.db
 └── README.md
-
+``
 #### How to Run Locally
 
-##### Clone the repository:
+##### Clone the repository:
 
 git clone https://github.com/code50/180598520.git
 cd project
