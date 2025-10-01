@@ -86,29 +86,30 @@ project/
 #### How to Run Locally
 
 ##### Clone the repository:
-
+```
 git clone https://github.com/code50/180598520.git
 cd project
-
+```
 ##### Create a virtual environment and activate it:
-
+```
 python -m venv venv
 source venv/bin/activate  # macOS/Linux
 venv\Scripts\activate     # Windows
+```
 
 ##### Install dependencies, including CS50 library:
-
-pip install -r requirements.txt
+```
+pip install -r templates/requirements.txt
 pip install cs50
-
+```
 ##### Initialize the database:
-
+```
 flask init-db
-
+```
 ##### Run the app:
-
+```
 flask run
-
+```
 #### ⚠️ Note:
  Users without a CS50 account can run this project as long as the CS50 Python library is installed. A CS50 account is not required.
 
